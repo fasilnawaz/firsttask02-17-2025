@@ -1,0 +1,93 @@
+import React, { useState } from 'react';
+import { View, Text, Switch, StyleSheet, Animated, Easing } from 'react-native';
+
+const App = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false); // State to track mode
+  const [toggleAnim] = useState(new Animated.Value(0)); // Animation value for the toggle
+
+  // Handle toggle change
+  const toggleSwitch = () => {
+    setIsDarkMode(previousState => !previousState);
+
+    // Trigger animation for smooth transition
+    Animated.timing(toggleAnim, {
+      toValue: isDarkMode ? 0 : 1, // Switch the animation direction
+      duration: 300, // Animation duration
+      easing: Easing.linear, // Easing function for smooth transition
+      useNativeDriver: false, // We are animating styles
+    }).start();
+  };
+
+  // Interpolating the toggle animation to make the button color change smoothly
+  const interpolatedBackgroundColor = toggleAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['#f0f0f0', '#333'], // Light to Dark mode background color transition
+  });
+
+  // Dynamic styles based on the theme
+  const containerStyle = {
+    ...styles.container,
+    backgroundColor: isDarkMode ? '#333' : '#f0f0f0', // Background color changes based on theme
+  };
+
+  const textStyle = {
+    ...styles.text,
+    color: isDarkMode ? '#fff' : '#000', // Text color changes based on theme
+  };
+
+  return (
+    <View style={containerStyle}>
+      <Text style={textStyle}>Toggle Dark/Light Mode</Text>
+
+      <View style={styles.switchContainer}>
+        <Text style={textStyle}>Light Mode</Text>
+
+        <Animated.View
+          style={{
+            ...styles.toggleContainer,
+            backgroundColor: interpolatedBackgroundColor, // Animated background color
+          }}
+        >
+          <Switch
+            value={isDarkMode}
+            onValueChange={toggleSwitch}
+            trackColor={{ false: '#767577', true: '#81b0ff' }}
+            thumbColor={isDarkMode ? '#f5dd4b' : '#f4f3f4'}
+          />
+        </Animated.View>
+
+        <Text style={textStyle}>Dark Mode</Text>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '80%',
+  },
+  toggleContainer: {
+    borderRadius: 20,
+    width: 50,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+});
+
+export default App;
