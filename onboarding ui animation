@@ -1,0 +1,119 @@
+import React, { useState, useEffect } from 'react';
+import { View, Text, Animated, StyleSheet, Button, Easing } from 'react-native';
+import { Ionicons } from '@expo/vector-icons'; // Ensure you have installed @expo/vector-icons
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
+
+// Onboarding Screen 1
+const OnboardingScreen1 = ({ navigation }) => {
+  const fadeAnim = useState(new Animated.Value(0))[0];  // Initial opacity for animation
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1500,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
+
+  return (
+    <View style={styles.container}>
+      <Animated.View style={{ opacity: fadeAnim }}>
+        <Ionicons name="ios-phone-portrait" size={100} color="black" />
+        <Text style={styles.title}>Welcome to App</Text>
+        <Text style={styles.description}>This is the first step of your onboarding process.</Text>
+        <Button title="Next" onPress={() => navigation.navigate('Onboarding2')} />
+      </Animated.View>
+    </View>
+  );
+};
+
+// Onboarding Screen 2
+const OnboardingScreen2 = ({ navigation }) => {
+  const fadeAnim = useState(new Animated.Value(0))[0];
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1500,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
+
+  return (
+    <View style={styles.container}>
+      <Animated.View style={{ opacity: fadeAnim }}>
+        <Ionicons name="ios-laptop" size={100} color="black" />
+        <Text style={styles.title}>Explore Features</Text>
+        <Text style={styles.description}>Here, you can explore various features of our app.</Text>
+        <Button title="Next" onPress={() => navigation.navigate('Onboarding3')} />
+      </Animated.View>
+    </View>
+  );
+};
+
+// Onboarding Screen 3
+const OnboardingScreen3 = ({ navigation }) => {
+  const fadeAnim = useState(new Animated.Value(0))[0];
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1500,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
+
+  return (
+    <View style={styles.container}>
+      <Animated.View style={{ opacity: fadeAnim }}>
+        <Ionicons name="ios-checkmark-circle" size={100} color="black" />
+        <Text style={styles.title}>Get Started</Text>
+        <Text style={styles.description}>You are all set! Click the button below to begin.</Text>
+        <Button title="Start" onPress={() => alert('App Started!')} />
+      </Animated.View>
+    </View>
+  );
+};
+
+// Main App Component with Navigation Setup
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Onboarding1">
+        <Stack.Screen name="Onboarding1" component={OnboardingScreen1} options={{ headerShown: false }} />
+        <Stack.Screen name="Onboarding2" component={OnboardingScreen2} options={{ headerShown: false }} />
+        <Stack.Screen name="Onboarding3" component={OnboardingScreen3} options={{ headerShown: false }} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+// Styles
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 20,
+  },
+  description: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginVertical: 20,
+  },
+});
+
+export default App;
