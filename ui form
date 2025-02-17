@@ -1,0 +1,85 @@
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+
+const RegistrationScreen = () => {
+  // States to store the input values
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  // Handle form submission
+  const handleRegister = () => {
+    if (!fullName || !email || !password) {
+      Alert.alert('Please fill in all fields');
+      return;
+    }
+
+    // You can replace this with actual registration logic (e.g., API call)
+    Alert.alert('Registration Successful', `Welcome, ${fullName}!`);
+    
+    // Reset the form after submission (optional)
+    setFullName('');
+    setEmail('');
+    setPassword('');
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Register</Text>
+
+      {/* Full Name */}
+      <TextInput
+        style={styles.input}
+        placeholder="Full Name"
+        value={fullName}
+        onChangeText={setFullName}
+      />
+
+      {/* Email Address */}
+      <TextInput
+        style={styles.input}
+        placeholder="Email Address"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+      />
+
+      {/* Password */}
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry={true}
+      />
+
+      {/* Register Button */}
+      <Button title="Register" onPress={handleRegister} />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: '#f7f7f7',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  input: {
+    height: 45,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    marginBottom: 15,
+    paddingLeft: 10,
+    borderRadius: 5,
+  },
+});
+
+export default RegistrationScreen;
